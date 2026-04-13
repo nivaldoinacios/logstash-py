@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 import requests
 from pydantic import Field
 
@@ -24,7 +26,7 @@ class ElasticsearchOutput(OutputPlugin):
         lines: list[str] = []
         for event in events:
             lines.append('{"index":{}}')
-            lines.append(__import__("json").dumps(event.data, ensure_ascii=False))
+            lines.append(json.dumps(event.data, ensure_ascii=False))
         payload = "\n".join(lines) + "\n"
         response = requests.post(
             bulk_url,

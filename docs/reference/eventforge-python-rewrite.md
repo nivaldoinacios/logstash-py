@@ -26,8 +26,8 @@ This repository now includes a bootstrap implementation of **Eventforge**, a Log
 
 ```bash
 python3 -m pip install -e .[dev]
-python3 -m eventforge validate -c /home/runner/work/logstash-py/logstash-py/examples/eventforge/http_json_route.yml
-python3 -m eventforge run -c /home/runner/work/logstash-py/logstash-py/examples/eventforge/http_json_route.yml
+python3 -m eventforge validate -c examples/eventforge/http_json_route.yml
+python3 -m eventforge run -c examples/eventforge/http_json_route.yml
 ```
 
 Then send data:

@@ -11,13 +11,13 @@ from eventforge.core.event import Event
 from eventforge.plugins.base import FilterPlugin, PluginConfig, PluginMetadata
 
 DEFAULT_PATTERNS = {
-    "WORD": r"\\b\\w+\\b",
-    "INT": r"[+-]?\\d+",
-    "NUMBER": r"[+-]?(?:\\d+(?:\\.\\d+)?)",
+    "WORD": r"\b\w+\b",
+    "INT": r"[+-]?\d+",
+    "NUMBER": r"[+-]?(?:\d+(?:\.\d+)?)",
     "GREEDYDATA": r".*",
     "DATA": r".*?",
-    "IP": r"(?:\\d{1,3}\\.){3}\\d{1,3}",
-    "TIMESTAMP_ISO8601": r"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?",
+    "IP": r"(?:\d{1,3}\.){3}\d{1,3}",
+    "TIMESTAMP_ISO8601": r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?",
 }
 
 TOKEN_RE = re.compile(r"%\{([A-Z0-9_]+)(?::([^}]+))?\}")

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any, Literal
 
@@ -31,7 +32,7 @@ class FileInput(InputPlugin):
     def stop(self) -> None:
         self._stop = True
 
-    def run(self, emit: callable) -> None:
+    def run(self, emit: Callable) -> None:
         path = Path(self.config.path)
         if not path.exists():
             raise ConfigError(f"file input path not found: {path}")

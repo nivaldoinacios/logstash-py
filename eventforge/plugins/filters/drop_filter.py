@@ -16,6 +16,6 @@ class DropFilter(FilterPlugin):
     config_model = DropFilterConfig
 
     def process(self, event: Event) -> Iterable[Event]:
-        if random.randint(1, 100) <= self.config.percentage:
+        if random.random() < (self.config.percentage / 100.0):
             return []
         return [event]

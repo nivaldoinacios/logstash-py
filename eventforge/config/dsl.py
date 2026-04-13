@@ -34,7 +34,9 @@ def _parse_value(raw: str):
         return text == "true"
     try:
         if text.startswith("{") and "=>" in text:
-            # very small subset hash parser
+            # Supports hash values shaped as: { "k1" => "v1" "k2" => 2 }.
+            # Nested hashes and nested arrays inside hash values are not supported
+            # in this bootstrap parser implementation.
             inner = text.strip("{} ")
             result = {}
             if not inner:

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import threading
 import time
 from dataclasses import dataclass
@@ -27,6 +28,7 @@ class PipelineRuntime:
         self._inputs_done = threading.Event()
         self._input_threads: list[threading.Thread] = []
         self._worker_threads: list[threading.Thread] = []
+        self._logger = logging.getLogger(f"eventforge.pipeline.{spec.pipeline_id}")
         self.inputs = self._build_plugins("input")
         self.filters = self._build_plugins("filter")
         self.outputs = self._build_plugins("output")
@@ -69,6 +71,7 @@ class PipelineRuntime:
                 runtime_input.instance.run(self._emit)
         except Exception:
             self.metrics.plugin_errors.labels(**label).inc()
+            self._logger.exception("input plugin failed", extra=label)
 
     def _emit(self, event: Event) -> None:
         if self.queue.put(event):
@@ -107,6 +110,7 @@ class PipelineRuntime:
                 except Exception as exc:
                     event.mark_error(str(exc))
                     self.metrics.plugin_errors.labels(**label).inc()
+                    self._logger.exception("filter plugin failed", extra=label)
                     next_events.append(event)
             current = next_events
             if not current:
@@ -124,6 +128,7 @@ class PipelineRuntime:
                     runtime_output.instance.emit(selected)
             except Exception:
                 self.metrics.plugin_errors.labels(**label).inc()
+                self._logger.exception("output plugin failed", extra=label)
                 for event in selected:
                     event.add_tag("_output_failure")
 

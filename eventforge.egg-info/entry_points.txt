@@ -1,0 +1,2 @@
+[console_scripts]
+eventforge = eventforge.cli:main

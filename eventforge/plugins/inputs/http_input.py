@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import threading
+from collections.abc import Callable
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
@@ -31,7 +32,7 @@ class HttpInput(InputPlugin):
         if self._server:
             self._server.shutdown()
 
-    def run(self, emit: callable) -> None:
+    def run(self, emit: Callable) -> None:
         plugin = self
 
         class Handler(BaseHTTPRequestHandler):

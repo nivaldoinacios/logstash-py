@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from typing import Any, Iterable
+from typing import Any
 
 from pydantic import BaseModel
 
@@ -36,7 +37,7 @@ class Plugin(ABC):
 
 class InputPlugin(Plugin, ABC):
     @abstractmethod
-    def run(self, emit: callable) -> None:
+    def run(self, emit: Callable[[Event], None]) -> None:
         raise NotImplementedError
 
 

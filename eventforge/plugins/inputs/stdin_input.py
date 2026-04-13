@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 import threading
+from collections.abc import Callable
 from typing import Any
 
 from pydantic import Field
@@ -26,7 +27,7 @@ class StdinInput(InputPlugin):
     def stop(self) -> None:
         self._stop.set()
 
-    def run(self, emit: callable) -> None:
+    def run(self, emit: Callable) -> None:
         codec = PlainCodec(self.config.codec_config)
         for line in sys.stdin:
             if self._stop.is_set():

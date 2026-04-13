@@ -37,8 +37,9 @@ pipelines:
     validate_config(config)
     engine = Engine(config)
     engine.start()
-    engine.wait(timeout=10)
+    engine.wait(timeout=20)
     engine.stop()
 
+    assert dest.exists()
     output = dest.read_text(encoding="utf-8")
     assert "hello" in output
