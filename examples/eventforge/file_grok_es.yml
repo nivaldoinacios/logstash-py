@@ -1,0 +1,23 @@
+pipelines:
+  - id: file-grok-es
+    workers: 2
+    batch_size: 50
+    queue: memory
+    input:
+      - file:
+          path: "/tmp/eventforge.log"
+          mode: "tail"
+          codec: "plain"
+    filter:
+      - grok:
+          source: "message"
+          match:
+            - "%{TIMESTAMP_ISO8601:log_ts} %{WORD:level} %{GREEDYDATA:msg}"
+      - date:
+          source: "log_ts"
+          target: "@timestamp"
+    output:
+      - elasticsearch:
+          hosts: ["http://127.0.0.1:9200"]
+          index: "logs-%Y.%m.%d"
+      - stdout: {}

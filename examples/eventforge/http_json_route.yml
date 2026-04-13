@@ -1,0 +1,22 @@
+pipelines:
+  - id: http-json
+    workers: 1
+    input:
+      - http:
+          host: "127.0.0.1"
+          port: 8088
+          path: "/ingest"
+          tags: ["http"]
+    filter:
+      - json:
+          source: "message"
+          when: "has('message')"
+      - drop:
+          percentage: 100
+          when: "field('[service]') == 'ignore-me'"
+    output:
+      - stdout:
+          pretty: true
+      - file:
+          path: "/tmp/eventforge-http.jsonl"
+          when: "'http' in tags"

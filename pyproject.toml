@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eventforge"
+version = "0.1.0"
+description = "Logstash-inspired event pipeline engine in Python"
+requires-python = ">=3.12"
+dependencies = [
+  "lark==1.2.2",
+  "pydantic==2.11.3",
+  "prometheus-client==0.22.0",
+  "structlog==25.4.0",
+  "python-dateutil==2.9.0.post0",
+  "requests==2.32.3",
+  "PyYAML==6.0.2",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==8.3.5",
+]
+
+[project.scripts]
+eventforge = "eventforge.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["eventforge*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/eventforge"]
